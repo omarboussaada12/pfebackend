@@ -27,7 +27,7 @@ public class Commande {
 	private Long id;
 	 
     @ManyToOne(fetch = FetchType.LAZY )
-	@JoinColumn(name = "offername", nullable = false)
+	@JoinColumn(name = "offer_id", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Offer offer;
 	 
@@ -36,7 +36,7 @@ public class Commande {
 	private String region;
 	
 	@ManyToOne(fetch = FetchType.LAZY )
-	@JoinColumn(name = "username", nullable = false)
+	@JoinColumn(name = "user_id", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private User user;
 	

@@ -49,6 +49,8 @@ public class Offer {
 		this.name = name;
 		this.prixunit = prixunit;
 	}
-	
+	public Offer() {
+		
+	}
 
 }
