@@ -1,7 +1,8 @@
 package web.tn.drobee.payload.request;
 
 public class CommandeRequest {
-	
+	private long id ;
+
 	private String username ;
 	
 	private String offername ;
@@ -40,6 +41,14 @@ public class CommandeRequest {
 
 	public void setRegion(String region) {
 		this.region = region;
+	}
+	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 }

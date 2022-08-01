@@ -19,7 +19,7 @@ public class OfferService  implements IOfferService{
 	private static final Logger l = LogManager.getLogger(OfferService.class);
 	
 
-	
+	@Override
 	public List<Offer> Listoffers() {
 
 		List<Offer> Offers = (List<Offer>) offerRepository.findAll();
@@ -33,7 +33,7 @@ public class OfferService  implements IOfferService{
 		
 	}
 
-	
+	@Override
 	public Offer Addoffer(Offer a) {
 		l.info("Adding Offer with ID: "+a.getId());
 		return offerRepository.save(a);
@@ -41,23 +41,23 @@ public class OfferService  implements IOfferService{
 		
 	}
 
-	
+	@Override
 	public void Deleteoffer (Long id) {
-		l.info("Deleting activity with ID: "+id);
+		l.info("Deleting Offer with ID: "+id);
 		offerRepository.deleteById(id);
 		// TODO Auto-generated method stub
 		
 	}
 
-	
+	@Override
 	public Offer Updateoffer(Offer a) {
-		l.info("Updating activity with ID: "+a.getId());
+		l.info("Updating Offer with ID: "+a.getId());
 		return this.offerRepository.save(a);
 		// TODO Auto-generated method stub
 		
 	}
 
-	
+	@Override
 	public Offer getofferbyid( Long id) {
 		l.info("Retriving offer with ID: "+id);
 		return this.offerRepository.findById(id).get();

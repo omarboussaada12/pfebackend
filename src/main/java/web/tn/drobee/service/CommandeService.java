@@ -23,7 +23,7 @@ import web.tn.drobee.repo.UserRepository;
 public class CommandeService implements ICommandeService {
 
 	@Autowired
-	OfferService offerService;
+	IOfferService offerService;
 	
 	@Autowired
 	UserRepository userRepository;
@@ -86,20 +86,33 @@ public class CommandeService implements ICommandeService {
 
 	@Override
 	public void Deletecommande(Long id) {
-		// TODO Auto-generated method stub
+		l.info("Deleting commande with ID: "+id);
+	    commandeRepository.deleteById(id);
 		
 	}
 
 	@Override
-	public Offer Updatecommande(Commande a) {
-		// TODO Auto-generated method stub
-		return null;
+	public Commande Updatecommande(CommandeRequest commandeRequest) {
+		l.info("Updating Commande with ID: "+commandeRequest.getId());
+		Commande c = getcommandebyid(commandeRequest.getId());
+		Offer o = offerService.getbyname(commandeRequest.getOffername());
+		  c.setUser(userRepository.findByUsername(commandeRequest.getUsername())
+		  .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + commandeRequest.getUsername())));
+		  c.setNbrunit(commandeRequest.getNbrunit());
+		  c.setRegion(commandeRequest.getRegion());
+		  c.setId(commandeRequest.getId());
+		  c.setStatus("waiting for confirmation");
+		  c.setOffer(o);
+		  Commande cc = new Commande(c.getId() ,o ,c.getNbrunit(), c.getRegion(), c.getUser(), c.getDate(), c.getStatus());
+		  Deletecommande(c.getId());
+		return this.commandeRepository.save(cc);
+		
 	}
 
 	@Override
-	public Offer getcommandebyid(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Commande getcommandebyid(Long id) {
+		l.info("fetching Commande with ID: "+id);
+		return this.commandeRepository.findById(id).get();
 	}
 
 }

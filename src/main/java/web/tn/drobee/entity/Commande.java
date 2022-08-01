@@ -111,6 +111,16 @@ public class Commande {
 public Commande() {
 		
 	}
+
+public Commande(Long id2, Offer offer ,Integer nbrunit, String region, User user, Date date, String status) {
+	this.id = id2 ;
+	this.nbrunit = nbrunit;
+	this.region = region;
+	this.user = user;
+	this.offer = offer;
+	this.date = date;
+	this.status = status;
+}
 	
 	
 }

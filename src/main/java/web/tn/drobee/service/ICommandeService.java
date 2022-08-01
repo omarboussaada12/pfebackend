@@ -13,7 +13,8 @@ public interface ICommandeService {
 	 List<Commande> Listcommandesbyyear();
 	 Commande Addcommande(CommandeRequest commanderequest); 
 	 void Deletecommande(Long id); 
-	 Offer Updatecommande(Commande a); 
-	 Offer getcommandebyid(Long id);
+	 Commande Updatecommande(CommandeRequest a); 
+	 Commande getcommandebyid(Long id);
+	 
 
 }
