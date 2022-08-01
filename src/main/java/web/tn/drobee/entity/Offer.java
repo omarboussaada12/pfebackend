@@ -45,9 +45,10 @@ public class Offer {
 		this.prixunit = prixunit;
 	}
 
-	public Offer(@NotBlank @Size(max = 20) String name, double prixunit) {
+	public Offer(long id , @NotBlank @Size(max = 20) String name, double prixunit) {
 		this.name = name;
 		this.prixunit = prixunit;
+		this.id=id;
 	}
 	public Offer() {
 		

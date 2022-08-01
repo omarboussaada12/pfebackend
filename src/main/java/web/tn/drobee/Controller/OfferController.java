@@ -49,7 +49,7 @@ public class OfferController {
 						.badRequest()
 						.body(new MessageResponse("Error: offer name is already taken!"));
 			}
-		 Offer offer = offerService.Addoffer(a); 
+		 offerService.Addoffer(a); 
 		 return ResponseEntity.ok(new MessageResponse("offer add successfully!")); }
 	
 	 

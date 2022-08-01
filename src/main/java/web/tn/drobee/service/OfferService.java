@@ -59,10 +59,26 @@ public class OfferService  implements IOfferService{
 
 	
 	public Offer getofferbyid( Long id) {
-		l.info("Retriving activity with ID: "+id);
+		l.info("Retriving offer with ID: "+id);
 		return this.offerRepository.findById(id).get();
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public Offer getbyname(String name) {
+		List<Offer> Offers = (List<Offer>) offerRepository.findAll();
+		for(Offer ac : Offers)
+		{
+			if(ac.getName().equals(name))
+			{
+				l.info("Retriving offer with ID: "+ ac.getId());
+				return ac;
+				
+			}
+		}
+		return null;
 	}
 
 

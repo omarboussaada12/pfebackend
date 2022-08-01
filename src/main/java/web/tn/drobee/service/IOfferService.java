@@ -11,5 +11,6 @@ public interface IOfferService {
 	 void Deleteoffer(Long id); 
 	 Offer Updateoffer(Offer a); 
 	 Offer getofferbyid(Long id);
+	 Offer getbyname(String name);
 
 }

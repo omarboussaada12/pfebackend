@@ -25,19 +25,25 @@ public class Commande {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@JsonIgnore 
+	@ManyToOne
+    @JoinColumn(name="offer_id", nullable=false)
+    private Offer offer;
 	 
-    @ManyToOne(fetch = FetchType.LAZY )
-	@JoinColumn(name = "offer_id", nullable = false)
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	private Offer offer;
-	 
+	public Offer getOffer() {
+		return offer;
+	}
+
+	public void setOffer(Offer offer) {
+		offer = offer;
+	}
 	private Integer nbrunit ;
 	
 	private String region;
 	
-	@ManyToOne(fetch = FetchType.LAZY )
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "user_id", nullable = false)
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private User user;
 	
 	private Date date ;
@@ -52,13 +58,6 @@ public class Commande {
 		this.id = id;
 	}
 
-	public Offer getOffer() {
-		return offer;
-	}
-
-	public void setOffer(Offer offer) {
-		this.offer = offer;
-	}
 
 	public Integer getNbrunit() {
 		return nbrunit;
@@ -100,14 +99,17 @@ public class Commande {
 		this.status = status;
 	}
 
-	public Commande(Offer offer, Integer nbrunit, String region, User user, Date date, String status) {
+	public Commande( Offer offer ,Integer nbrunit, String region, User user, Date date, String status) {
 		super();
-		this.offer = offer;
 		this.nbrunit = nbrunit;
 		this.region = region;
 		this.user = user;
+		this.offer = offer;
 		this.date = date;
 		this.status = status;
+	}
+public Commande() {
+		
 	}
 	
 	
