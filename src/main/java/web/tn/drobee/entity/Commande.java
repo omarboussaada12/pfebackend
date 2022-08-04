@@ -15,21 +15,23 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(	name = "commande")
+@Table(name = "commande")
 public class Commande {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@JsonIgnore 
+	
+	@JsonIgnore
 	@ManyToOne
-    @JoinColumn(name="offer_id", nullable=false)
-    private Offer offer;
-	 
+	@JoinColumn(name = "offer_id", nullable = false)
+	private Offer offer;
+
 	public Offer getOffer() {
 		return offer;
 	}
@@ -37,17 +39,19 @@ public class Commande {
 	public void setOffer(Offer offer) {
 		offer = offer;
 	}
-	private Integer nbrunit ;
-	
+
+	private Integer nbrunit;
+
 	private String region;
-	
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
-	
-	private Date date ;
-	
+
+	@DateTimeFormat(pattern = ("dd/MM/yyyy"))
+	private Date date;
+
 	private String status;
 
 	public Long getId() {
@@ -57,7 +61,6 @@ public class Commande {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 
 	public Integer getNbrunit() {
 		return nbrunit;
@@ -99,7 +102,7 @@ public class Commande {
 		this.status = status;
 	}
 
-	public Commande( Offer offer ,Integer nbrunit, String region, User user, Date date, String status) {
+	public Commande(Offer offer, Integer nbrunit, String region, User user, Date date, String status) {
 		super();
 		this.nbrunit = nbrunit;
 		this.region = region;
@@ -108,19 +111,19 @@ public class Commande {
 		this.date = date;
 		this.status = status;
 	}
-public Commande() {
-		
+
+	public Commande() {
+
 	}
 
-public Commande(Long id2, Offer offer ,Integer nbrunit, String region, User user, Date date, String status) {
-	this.id = id2 ;
-	this.nbrunit = nbrunit;
-	this.region = region;
-	this.user = user;
-	this.offer = offer;
-	this.date = date;
-	this.status = status;
-}
-	
-	
+	public Commande(Long id2, Offer offer, Integer nbrunit, String region, User user, Date date, String status) {
+		this.id = id2;
+		this.nbrunit = nbrunit;
+		this.region = region;
+		this.user = user;
+		this.offer = offer;
+		this.date = date;
+		this.status = status;
+	}
+
 }

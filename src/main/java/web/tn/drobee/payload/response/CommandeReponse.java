@@ -2,6 +2,8 @@ package web.tn.drobee.payload.response;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class CommandeReponse {
 
 	private Long id; 
@@ -14,6 +16,7 @@ public class CommandeReponse {
 	
 	private String region;
 	
+	@DateTimeFormat(pattern =("dd/MM/yyyy"))
     private Date date ;
 	
 	private String status;
