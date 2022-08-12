@@ -1,5 +1,6 @@
 package web.tn.drobee.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -73,6 +74,18 @@ public class OfferService implements IOfferService {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public List<String> Listoffername() {
+		List<Offer> Offers = (List<Offer>) offerRepository.findAll();
+		List<String> names = new ArrayList<String>() ;
+		l.info("fetching list d'offer");
+		for (Offer ac : Offers) {
+			l.info("name offer : " + ac.getName());
+			names.add(ac.getName());
+		}
+		return names;
 	}
 
 }

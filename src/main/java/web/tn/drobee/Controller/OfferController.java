@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +20,7 @@ import web.tn.drobee.entity.Offer;
 import web.tn.drobee.payload.response.MessageResponse;
 import web.tn.drobee.repo.OfferRepository;
 import web.tn.drobee.service.IOfferService;
-
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 public class OfferController {
 	@Autowired
@@ -33,6 +34,13 @@ public class OfferController {
 		List<Offer> list = offerService.Listoffers();
 		return list;
 	}
+	@GetMapping("/get-all-offer-names")
+	@ResponseBody
+	public List<String> getOffersname() {
+		List<String> list = offerService.Listoffername();
+		return list;
+	}
+	//list of offer name
 
 	@GetMapping("/get-Offer/{offer-id}")
 	@ResponseBody

@@ -16,5 +16,7 @@ public interface IOfferService {
 	Offer getofferbyid(Long id);
 
 	Offer getbyname(String name);
+	
+	List<String> Listoffername();
 
 }
