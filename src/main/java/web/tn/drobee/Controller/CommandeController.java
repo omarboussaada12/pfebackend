@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import web.tn.drobee.entity.Commande;
-import web.tn.drobee.entity.Offer;
+
 import web.tn.drobee.payload.request.CommandeRequest;
 import web.tn.drobee.payload.response.CommandeReponse;
 import web.tn.drobee.payload.response.MessageResponse;

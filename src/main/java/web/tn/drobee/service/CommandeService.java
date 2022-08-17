@@ -22,7 +22,6 @@ import web.tn.drobee.payload.request.CommandeRequest;
 import web.tn.drobee.payload.response.CommandeReponse;
 import web.tn.drobee.payload.response.MessageResponse;
 import web.tn.drobee.repo.CommandeRepository;
-import web.tn.drobee.repo.OfferRepository;
 import web.tn.drobee.repo.RoleRepository;
 import web.tn.drobee.repo.UserRepository;
 
@@ -33,11 +32,14 @@ public class CommandeService implements ICommandeService {
 	IOfferService offerService;
 
 	@Autowired
+	IUserService userService;
+
+	@Autowired
 	UserRepository userRepository;
 
 	@Autowired
 	CommandeRepository commandeRepository;
-	
+
 	@Autowired
 	RoleRepository roleRepository;
 
@@ -121,10 +123,9 @@ public class CommandeService implements ICommandeService {
 	@Override
 	public ResponseEntity<?> Updatecommande(CommandeRequest commandeRequest) {
 		l.info("Updating Commande with ID: " + commandeRequest.getId());
-		Commande c = commandeRepository.findById(commandeRequest.getId()).get() ;
-		if(c.getStatus().equals("confirmer"))
-		{
-			return ResponseEntity.badRequest().body(new MessageResponse("Error: commande already traited"));	
+		Commande c = commandeRepository.findById(commandeRequest.getId()).get();
+		if (c.getStatus().equals("confirmer")) {
+			return ResponseEntity.badRequest().body(new MessageResponse("Error: commande already traited"));
 		}
 		Offer o = offerService.getbyname(commandeRequest.getOffername());
 		c.setUser(userRepository.findByUsername(commandeRequest.getUsername()).orElseThrow(
@@ -137,7 +138,7 @@ public class CommandeService implements ICommandeService {
 		Commande cc = new Commande(c.getId(), o, c.getNbrunit(), c.getRegion(), c.getUser(), c.getDate(),
 				c.getStatus());
 		Deletecommande(c.getId());
-		 this.commandeRepository.save(cc);
+		this.commandeRepository.save(cc);
 		return ResponseEntity.badRequest().body(new MessageResponse("Commande updated successfully"));
 
 	}
@@ -145,35 +146,31 @@ public class CommandeService implements ICommandeService {
 	@Override
 	public CommandeReponse getcommandebyid(Long id) {
 		l.info("fetching Commande with ID: " + id);
-		Commande c = commandeRepository.findById(id).get() ;
-		CommandeReponse cr = new CommandeReponse(c.getId(),c.getUser().getUsername(),
-				c.getOffer().getName(),c.getNbrunit(),c.getRegion(),c.getDate(),c.getStatus());
+		Commande c = commandeRepository.findById(id).get();
+		CommandeReponse cr = new CommandeReponse(c.getId(), c.getUser().getUsername(), c.getOffer().getName(),
+				c.getNbrunit(), c.getRegion(), c.getDate(), c.getStatus());
 		return cr;
 	}
 
 	@Override
 	public ResponseEntity<?> validercommande(long id) {
-		Commande c = commandeRepository.findById(id).get() ;
+		Commande c = commandeRepository.findById(id).get();
 		Set<Role> roles = new HashSet<>();
 		roles = c.getUser().getRoles();
-		Integer client = 0;
-       for(Role r : roles)
-       {
-    	   if(r.getName().equals("ROLE_CLIENT"))
-    	   {
-    		 client =1 ;  
-    	   }
-       }
-       if(client == 0)
-       {
-    	   Role rc = new Role();
-    	  rc = roleRepository.findByName(ERole.ROLE_CLIENT). orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-    		roles.add(rc);
-    		c.setStatus("confimer");
-    		commandeRepository.save(c);
-    		
-       }
-       return  ResponseEntity.ok(new MessageResponse("commande confirmer successfully!"));
+		boolean haveroleclient = false;
+		for (Role r : roles) {
+			if (r.getName().equals(ERole.ROLE_CLIENT)) {
+				haveroleclient = true;
+				break;
+			}
+		}
+		if (haveroleclient == false) {
+			userService.addroletouser(c.getUser().getUsername(), "ROLE_CLIENT");
+			c.setStatus("confimer");
+			commandeRepository.save(c);
+
+		}
+		return ResponseEntity.ok(new MessageResponse("commande confirmer successfully!"));
 	}
 
 }

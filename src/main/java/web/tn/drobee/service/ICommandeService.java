@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 
 import web.tn.drobee.entity.Commande;
-import web.tn.drobee.entity.Offer;
 import web.tn.drobee.payload.request.CommandeRequest;
 import web.tn.drobee.payload.response.CommandeReponse;
 
@@ -23,7 +22,7 @@ public interface ICommandeService {
 	ResponseEntity<?> Updatecommande(CommandeRequest a);
 
 	CommandeReponse getcommandebyid(Long id);
-	
-	ResponseEntity<?>validercommande(long id);
+
+	ResponseEntity<?> validercommande(long id);
 
 }
