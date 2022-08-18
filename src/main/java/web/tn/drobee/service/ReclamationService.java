@@ -84,9 +84,11 @@ public class ReclamationService implements IReclamationService {
 
 	}
 
+	//update should only run on reclamation nontraiter
+	//need solution
 	@Override
-	public Reclamation Updatereclamation(ReclamationRequest reclamationRequest, Long idr) {
-		Reclamation r = reclamationRepository.findById(idr).get();
+	public Reclamation Updatereclamation(ReclamationRequest reclamationRequest) {
+		Reclamation r = reclamationRepository.findById(reclamationRequest.getId()).get();
 		r.setMessage(reclamationRequest.getMessage());
 		r.setStatus(false);
 		return reclamationRepository.save(r);

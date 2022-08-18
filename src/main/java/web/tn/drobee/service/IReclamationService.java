@@ -13,7 +13,7 @@ public interface IReclamationService {
 
 	void Deletereclamation(Long id);
 
-	Reclamation Updatereclamation(ReclamationRequest reclamationRequest, Long idr);
+	Reclamation Updatereclamation(ReclamationRequest reclamationRequest);
 
 	ReclamationResponse getreclamationbyid(Long id);
 
