@@ -2,9 +2,7 @@ package web.tn.drobee.service;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,9 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import web.tn.drobee.entity.Commande;
-import web.tn.drobee.entity.ERole;
 import web.tn.drobee.entity.Offer;
-import web.tn.drobee.entity.Role;
 import web.tn.drobee.entity.User;
 import web.tn.drobee.payload.request.CommandeRequest;
 import web.tn.drobee.payload.response.CommandeReponse;
@@ -155,21 +151,11 @@ public class CommandeService implements ICommandeService {
 	@Override
 	public ResponseEntity<?> validercommande(long id) {
 		Commande c = commandeRepository.findById(id).get();
-		Set<Role> roles = new HashSet<>();
-		roles = c.getUser().getRoles();
-		boolean haveroleclient = false;
-		for (Role r : roles) {
-			if (r.getName().equals(ERole.ROLE_CLIENT)) {
-				haveroleclient = true;
-				break;
-			}
-		}
-		if (haveroleclient == false) {
 			userService.addroletouser(c.getUser().getUsername(), "ROLE_CLIENT");
 			c.setStatus("confimer");
 			commandeRepository.save(c);
 
-		}
+		
 		return ResponseEntity.ok(new MessageResponse("commande confirmer successfully!"));
 	}
 

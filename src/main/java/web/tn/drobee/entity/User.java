@@ -8,6 +8,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+
 @Entity
 @Table(	name = "users", 
 		uniqueConstraints = { 
@@ -53,19 +54,10 @@ public class User {
 				joinColumns = @JoinColumn(name = "user_id"), 
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
-
-	public User() {
-	}
-
-	public User(String username, String firstname, String lastname, String phone, String address , String email, String password ) {
-		this.username = username;
-		this.Firstname = firstname;
-		this.lastname = lastname ;
-		this.phone = phone ;
-		this.address = address ;
-		this.email = email;
-		this.password = password;
-	}
+	
+	@ManyToOne(fetch = FetchType.LAZY, optional = true)
+	@JoinColumn(name = "image_id")
+	private FileDB image;
 
 	public Long getId() {
 		return id;
@@ -144,4 +136,28 @@ public class User {
 		this.roles.clear(); 
 		this.roles.add(role);
 	}
+
+	public FileDB getImage() {
+		return image;
+	}
+
+	public void setImage(FileDB image) {
+		this.image = image;
+	}
+	
+	public User() {
+	}
+
+	public User(String username, String firstname, String lastname, String phone, String address , String email, String password ) {
+		this.username = username;
+		this.Firstname = firstname;
+		this.lastname = lastname ;
+		this.phone = phone ;
+		this.address = address ;
+		this.email = email;
+		this.password = password;
+	}
+	
+	
+	
 }

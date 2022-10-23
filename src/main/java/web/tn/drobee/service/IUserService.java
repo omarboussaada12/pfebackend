@@ -2,20 +2,25 @@ package web.tn.drobee.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import web.tn.drobee.entity.User;
 import web.tn.drobee.payload.request.SignupRequest;
+import web.tn.drobee.payload.response.UserResponse;
 
 public interface IUserService {
-	List<User> Listusers();
-
-	User Adduser(SignupRequest user);
+	List<UserResponse> Listusers();
 
 	void Deleteuser(Long id);
 
-	User Updateuser(User a , Long id);
+	boolean Updateuserinfo(String  username , SignupRequest a );
+	
+	User Updateuserimage(String  username , MultipartFile file );
 
-	User getuserbyusername(String username);
+	UserResponse getuserbyusername(String username);
 	
 	User addroletouser(String username , String rolename );
+	
+	List<UserResponse> ListusersAdmin();
 
 }
