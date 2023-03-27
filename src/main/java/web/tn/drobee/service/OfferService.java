@@ -69,17 +69,32 @@ public class OfferService implements IOfferService {
 	}
 
 	@Override
-	public Offer Updateoffer(Offer a) {
-		l.info("Updating Offer with ID: " + a.getId());
-		return this.offerRepository.save(a);
-		// TODO Auto-generated method stub
-
+ public Offer Updateoffer(long id ,Offer a) {
+		Offer  of =  new Offer();
+		of = this.offerRepository.getOne(id);
+		if(of.getName() != a.getName())
+		{
+		of.setName(a.getName());
+		}
+		of.setPrixunit(a.getPrixunit());
+		of.setDescription(a.getDescription());
+		return this.offerRepository.save(of);
 	}
 
 	@Override
-	public Offer getofferbyid(Long id) {
+	public OfferResponse getofferbyid(Long id) {
+		OfferResponse or = new OfferResponse();
+		Offer  of =  new Offer();
 		l.info("Retriving offer with ID: " + id);
-		return this.offerRepository.findById(id).get();
+		of = this.offerRepository.findById(id).get();
+		or.setName(of.getName());
+		or.setPrixunit(of.getPrixunit());
+		or.setDescription(of.getDescription());
+		FileDB dbFile = storageService.getFile(of.getImage().getId());
+		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/files/")
+				.path(dbFile.getId()).toUriString();
+		or.setImage(new ResponseFile(dbFile.getName(), fileDownloadUri, dbFile.getType(), dbFile.getData().length));
+		return or ;
 
 	}
 

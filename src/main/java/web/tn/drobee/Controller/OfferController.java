@@ -33,6 +33,7 @@ public class OfferController {
 	@Autowired
 	OfferRepository offerRepository;
 
+	//fetching a list of offer 
 	@GetMapping("/get-all-offer")
 	@ResponseBody
 	public List<OfferResponse> getOffers() {
@@ -40,31 +41,34 @@ public class OfferController {
 		return list;
 	}
 
+	// fetch a list of all the offers name
 	@GetMapping("/get-all-offer-names")
 	@ResponseBody
 	public List<String> getOffersname() {
 		List<String> list = offerService.Listoffername();
 		return list;
 	}
-	// list of offer name
-
+	
+	// fetch an offer based on ID
 	@GetMapping("/get-Offer/{offer-id}")
 	@ResponseBody
-	public Offer getOffer(@PathVariable("offer-id") Long OfferId) {
+	public OfferResponse getOffer(@PathVariable("offer-id") Long OfferId) {
 		return offerService.getofferbyid(OfferId);
 	}
 
+	// add a new offer without image
 	@PostMapping("/add-Offer")
 	@ResponseBody
 	public ResponseEntity<?> addOffer(@Valid @RequestBody Offer a) {
 		if (offerRepository.existsByname(a.getName())) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: offer name is already taken!"));
 		}
-
 		offerService.Addoffer(a);
 		return ResponseEntity.ok(new MessageResponse("offer add successfully!"));
 	}
 
+	
+	//add image to an exsisted offer and delete the old image 
 	@PutMapping("/offer-image/{offer-name}")
 	@ResponseBody
 	public void affecterimagetooffer(@Valid @PathVariable("offer-name") String offername,
@@ -72,20 +76,22 @@ public class OfferController {
 
 		offerService.Addimageoffer(offername, file);
 	}
-
+    // need more work
 	@DeleteMapping("/delete-Offer/{offer-id}")
 	@ResponseBody
 	public void deleteOffer(@PathVariable("offer-id") Long OfferId) {
 		offerService.Deleteoffer(OfferId);
 	}
 
-	@PutMapping("/update-offer")
+	//need more work
+	@PutMapping("/update-offer/{offer-id}")
 	@ResponseBody
-	public ResponseEntity<?> updateOffer(@Valid @RequestBody Offer offer) {
-		if (offerRepository.existsByname(offer.getName())) {
+	public ResponseEntity<?> updateOffer(@PathVariable("offer-id") Long OfferId,@Valid @RequestBody Offer offer) {
+		if (offerRepository.findById(OfferId) == null) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: offer name is already taken!"));
 		}
-		offerService.Updateoffer(offer);
+		
+		offerService.Updateoffer(OfferId,offer);
 		return ResponseEntity.ok(new MessageResponse("offer updated successfully!"));
 	}
 }

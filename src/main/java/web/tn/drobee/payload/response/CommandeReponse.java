@@ -19,6 +19,18 @@ public class CommandeReponse {
 	@DateTimeFormat(pattern =("dd/MM/yyyy"))
     private Date date ;
 	
+	@DateTimeFormat(pattern =("dd/MM/yyyy"))
+    private Date datec ;
+	
+	
+	public Date getDatec() {
+		return datec;
+	}
+
+	public void setDatec(Date datec) {
+		this.datec = datec;
+	}
+
 	private String status;
 
 	public Long getId() {
@@ -78,7 +90,7 @@ public class CommandeReponse {
 	}
 
 	public CommandeReponse(Long id, String username, String offername, Integer nbrunit, String region, Date date,
-			String status) {
+			Date datec, String status) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -86,8 +98,10 @@ public class CommandeReponse {
 		this.nbrunit = nbrunit;
 		this.region = region;
 		this.date = date;
+		this.datec = datec;
 		this.status = status;
 	}
+
 	public CommandeReponse()
 	{
 		

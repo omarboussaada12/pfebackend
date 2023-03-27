@@ -37,8 +37,13 @@ public class Commande {
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
+	//date whene you sent the commande 
 	@DateTimeFormat(pattern = ("dd/MM/yyyy"))
 	private Date date;
+	
+	//date you choose to your commande
+	@DateTimeFormat(pattern = ("dd/MM/yyyy"))
+	private Date datec;
 
 	private String status;
 
@@ -98,7 +103,17 @@ public class Commande {
 		this.status = status;
 	}
 
-	public Commande(Offer offer, Integer nbrunit, String region, User user, Date date, String status) {
+	
+
+	public Date getDatec() {
+		return datec;
+	}
+
+	public void setDatec(Date datec) {
+		this.datec = datec;
+	}
+
+	public Commande(Offer offer, Integer nbrunit, String region, User user, Date date, String status , Date datec) {
 		super();
 		this.nbrunit = nbrunit;
 		this.region = region;
@@ -106,6 +121,7 @@ public class Commande {
 		this.offer = offer;
 		this.date = date;
 		this.status = status;
+		this.datec = datec;
 	}
 
 	public Commande() {

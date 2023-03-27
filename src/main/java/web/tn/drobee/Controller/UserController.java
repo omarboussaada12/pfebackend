@@ -34,36 +34,40 @@ public class UserController {
 	@Autowired
 	UserRepository userRepository;
 	
+	
+	// list of all the users
 	@GetMapping("/get-all-users")
 	@ResponseBody
 	public List<UserResponse> getusers() {
 		List<UserResponse> list = userService.Listusers();
 		return list;
 	}
+	
+	//fetching a user based on his username
 	@GetMapping("/get-user/{username}")
 	@ResponseBody
 	public UserResponse getuser(@PathVariable("username") String username) {
 		return userService.getuserbyusername(username);
 	}
-
+    
+	// need more work
 	@DeleteMapping("/delete-user/{user-id}")
 	@ResponseBody
 	public void deleteUser(@PathVariable("user-id") Long UserId) {
 		userService.Deleteuser(UserId);
 	}
-	@PutMapping("/update-user")
-	@ResponseBody
-	public ResponseEntity<?> updateUser(@Valid @RequestBody User user) {
-		
-		return ResponseEntity.ok(new MessageResponse("user updated successfully!"));
-	}
+	
+	
+	//update user role 
 	@PutMapping("/update-user-role/{user-name}/{role-name}")
 	@ResponseBody
-	public User updateUserroles(@Valid @PathVariable("user-name") String username, @PathVariable("role-name") String rolename   ) {
+	public void updateUserroles(@Valid @PathVariable("user-name") String username, @PathVariable("role-name") String rolename   ) {
 		
 		
-		return userService.addroletouser(username, rolename);
+		 userService.addroletouser(username, rolename);
 	}
+	
+	// update user image
 	@PutMapping("/update-user-image/{user-name}")
 	@ResponseBody
 	public void updateUserimage(@Valid @PathVariable("user-name") String username, @RequestParam("file") MultipartFile file ) {
@@ -85,6 +89,7 @@ public class UserController {
 	 }
 	}
 	
+	// list off all the users with ROLE_ADMIN
 	@GetMapping("/get-user-admin")
 	@ResponseBody
 	public List<UserResponse> getalladmin() {

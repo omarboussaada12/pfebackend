@@ -1,5 +1,9 @@
 package web.tn.drobee.payload.request;
 
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class CommandeRequest {
 	
 	private Long  id ;
@@ -11,6 +15,21 @@ public class CommandeRequest {
     private Integer nbrunit ;
 	
 	private String region;
+	
+	@DateTimeFormat(pattern = ("dd/MM/yyyy"))
+	private Date datec;
+	
+	
+
+	
+
+	public Date getDatec() {
+		return datec;
+	}
+
+	public void setDatec(Date datec) {
+		this.datec = datec;
+	}
 
 	public String getUsername() {
 		return username;

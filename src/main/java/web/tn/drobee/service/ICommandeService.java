@@ -19,10 +19,12 @@ public interface ICommandeService {
 
 	void Deletecommande(Long id);
 
-	ResponseEntity<?> Updatecommande(CommandeRequest a);
+	ResponseEntity<?> Updatecommande(long id ,CommandeRequest a);
 
 	CommandeReponse getcommandebyid(Long id);
 
 	ResponseEntity<?> validercommande(long id);
+
+	ResponseEntity<?> refusercommande(long id);
 
 }

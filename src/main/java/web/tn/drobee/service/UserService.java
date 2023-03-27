@@ -139,6 +139,7 @@ public class UserService implements IUserService {
 		User u = userRepository.findByUsername(username)
 				.orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
 		;
+		l.info("changing role for "+ username +" from "+u.getRoles()+" to : " + rolename);
 		switch (rolename) {
 		case "ROLE_ADMIN":
 			u.setRoles(roleRepository.findByName(ERole.ROLE_ADMIN)

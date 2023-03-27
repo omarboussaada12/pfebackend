@@ -54,7 +54,7 @@ public class CommandeService implements ICommandeService {
 			cr.setUsername(ac.getUser().getUsername());
 			cr.setRegion(ac.getRegion());
 			cr.setStatus(ac.getStatus());
-			cr.setDate(ac.getDate());
+			cr.setDatec(ac.getDatec());
 
 			l.info(" for commande id : " + cr.getId());
 			lcr.add(cr);
@@ -78,6 +78,7 @@ public class CommandeService implements ICommandeService {
 			cr.setRegion(ac.getRegion());
 			cr.setStatus(ac.getStatus());
 			cr.setDate(ac.getDate());
+			cr.setDatec(ac.getDatec()); 
 
 			l.info(" for commande id : " + cr.getId());
 			lcr.add(cr);
@@ -102,10 +103,13 @@ public class CommandeService implements ICommandeService {
 		c.setDate(new Date());
 		c.setRegion(commandeRequest.getRegion());
 		c.setStatus("waiting for confirmation");
-		Commande cc = new Commande(o, c.getNbrunit(), c.getRegion(), c.getUser(), c.getDate(), c.getStatus());
-		l.info("adding commande with id {} and servicename {} for user {} ", cc.getId(), cc.getOffer().getName(),
-				cc.getUser().getUsername());
-		return commandeRepository.save(cc);
+		c.setOffer(o);
+		c.setDatec(commandeRequest.getDatec());
+		/** chech if datec > a date **/
+		
+		l.info("adding commande with id {} and servicename {} for user {} for {} DateC", c.getId(),
+				c.getOffer().getName(), c.getUser().getUsername(), c.getDatec());
+		return commandeRepository.save(c);
 
 	}
 
@@ -117,24 +121,16 @@ public class CommandeService implements ICommandeService {
 	}
 
 	@Override
-	public ResponseEntity<?> Updatecommande(CommandeRequest commandeRequest) {
+	public ResponseEntity<?> Updatecommande(long id ,CommandeRequest commandeRequest) {
 		l.info("Updating Commande with ID: " + commandeRequest.getId());
-		Commande c = commandeRepository.findById(commandeRequest.getId()).get();
-		if (c.getStatus().equals("confirmer")) {
-			return ResponseEntity.badRequest().body(new MessageResponse("Error: commande already traited"));
-		}
+		Commande c = commandeRepository.findById(id).get();
 		Offer o = offerService.getbyname(commandeRequest.getOffername());
-		c.setUser(userRepository.findByUsername(commandeRequest.getUsername()).orElseThrow(
-				() -> new UsernameNotFoundException("User Not Found with username: " + commandeRequest.getUsername())));
 		c.setNbrunit(commandeRequest.getNbrunit());
 		c.setRegion(commandeRequest.getRegion());
-		c.setId(commandeRequest.getId());
 		c.setStatus("waiting for confirmation");
 		c.setOffer(o);
-		Commande cc = new Commande(c.getId(), o, c.getNbrunit(), c.getRegion(), c.getUser(), c.getDate(),
-				c.getStatus());
-		Deletecommande(c.getId());
-		this.commandeRepository.save(cc);
+		c.setDatec(commandeRequest.getDatec());
+		this.commandeRepository.save(c);
 		return ResponseEntity.badRequest().body(new MessageResponse("Commande updated successfully"));
 
 	}
@@ -144,19 +140,28 @@ public class CommandeService implements ICommandeService {
 		l.info("fetching Commande with ID: " + id);
 		Commande c = commandeRepository.findById(id).get();
 		CommandeReponse cr = new CommandeReponse(c.getId(), c.getUser().getUsername(), c.getOffer().getName(),
-				c.getNbrunit(), c.getRegion(), c.getDate(), c.getStatus());
+				c.getNbrunit(), c.getRegion(), c.getDate(), c.getDatec() ,c.getStatus());
 		return cr;
 	}
 
 	@Override
 	public ResponseEntity<?> validercommande(long id) {
 		Commande c = commandeRepository.findById(id).get();
-			userService.addroletouser(c.getUser().getUsername(), "ROLE_CLIENT");
-			c.setStatus("confimer");
-			commandeRepository.save(c);
+		userService.addroletouser(c.getUser().getUsername(), "ROLE_CLIENT");
+		c.setStatus("confimer");
+		commandeRepository.save(c);
 
-		
 		return ResponseEntity.ok(new MessageResponse("commande confirmer successfully!"));
+	}
+	
+	@Override
+	public ResponseEntity<?> refusercommande(long id) {
+		Commande c = commandeRepository.findById(id).get();
+		userService.addroletouser(c.getUser().getUsername(), "ROLE_CLIENT");
+		c.setStatus("refuser");
+		commandeRepository.save(c);
+
+		return ResponseEntity.ok(new MessageResponse("commande refuser "));
 	}
 
 }

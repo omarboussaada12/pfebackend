@@ -19,7 +19,7 @@ public class Offer {
 	private Long id;
 
 	@NotBlank
-	@Size(max = 20)
+	
 	private String name;
 	
 	private double prixunit;
