@@ -1,7 +1,5 @@
 package web.tn.drobee.security;
 
-import javax.websocket.Session;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -70,27 +68,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/files/**").permitAll()
 			.antMatchers("/get-all-offer/**").permitAll()	
 			.anyRequest().authenticated();
+			
 		    
 
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 	
-	 @Bean
-	    public InMemoryUserDetailsManager userDetailsService() {
-	        UserDetails user = User.withDefaultPasswordEncoder()
-	                .username("test")
-	                .password("test")
-	                .roles("USER")
-	                .build();
-	        
-	        UserDetails user1 = User.withDefaultPasswordEncoder()
-	                .username("test1")
-	                .password("test1")
-	                .roles("USER")
-	                .build();
-
-	        return new InMemoryUserDetailsManager(user,user1);
-	    }
+	
 	
 
 }
