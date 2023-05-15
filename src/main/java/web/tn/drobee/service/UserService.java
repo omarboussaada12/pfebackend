@@ -87,7 +87,7 @@ public class UserService implements IUserService {
 		u.setLastname(a.getLastname());
 		u.setAddress(a.getAddress());
 		u.setPhone(a.getPhone());
-		addroletouser(username, a.getRole());
+		changeroletouser(username, a.getRole());
 		if (userRepository.save(u) != null) {
 			return true;
 		} else {
@@ -135,7 +135,7 @@ public class UserService implements IUserService {
 
 	// change user role
 	@Override
-	public User addroletouser(String username, String rolename) {
+	public User changeroletouser(String username, String rolename) {
 		User u = userRepository.findByUsername(username)
 				.orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
 		;

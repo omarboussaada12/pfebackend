@@ -12,7 +12,7 @@ public class CommandeRequest {
 	
 	private String offername ;
 	
-    private Integer nbrunit ;
+    private int nbrunit ;
 	
 	private String region;
 	
@@ -47,11 +47,11 @@ public class CommandeRequest {
 		this.offername = offername;
 	}
 
-	public Integer getNbrunit() {
+	public int getNbrunit() {
 		return nbrunit;
 	}
 
-	public void setNbrunit(Integer nbrunit) {
+	public void setNbrunit(int nbrunit) {
 		this.nbrunit = nbrunit;
 	}
 

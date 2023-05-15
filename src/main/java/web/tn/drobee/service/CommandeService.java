@@ -87,11 +87,7 @@ public class CommandeService implements ICommandeService {
 		return lcr;
 	}
 
-	@Override
-	public List<Commande> Listcommandesbyyear() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public Commande Addcommande(CommandeRequest commandeRequest) throws UsernameNotFoundException {
@@ -147,7 +143,7 @@ public class CommandeService implements ICommandeService {
 	@Override
 	public ResponseEntity<?> validercommande(long id) {
 		Commande c = commandeRepository.findById(id).get();
-		userService.addroletouser(c.getUser().getUsername(), "ROLE_CLIENT");
+		userService.changeroletouser(c.getUser().getUsername(), "ROLE_CLIENT");
 		c.setStatus("confimer");
 		commandeRepository.save(c);
 
@@ -157,7 +153,7 @@ public class CommandeService implements ICommandeService {
 	@Override
 	public ResponseEntity<?> refusercommande(long id) {
 		Commande c = commandeRepository.findById(id).get();
-		userService.addroletouser(c.getUser().getUsername(), "ROLE_CLIENT");
+		userService.changeroletouser(c.getUser().getUsername(), "ROLE_CLIENT");
 		c.setStatus("refuser");
 		commandeRepository.save(c);
 

@@ -28,7 +28,7 @@ public class Commande {
 	@JoinColumn(name = "offer_id", nullable = false)
 	private Offer offer;
 
-	private Integer nbrunit;
+	private int nbrunit;
 
 	private String region;
 
@@ -63,11 +63,11 @@ public class Commande {
 		this.id = id;
 	}
 
-	public Integer getNbrunit() {
+	public int getNbrunit() {
 		return nbrunit;
 	}
 
-	public void setNbrunit(Integer nbrunit) {
+	public void setNbrunit(int nbrunit) {
 		this.nbrunit = nbrunit;
 	}
 
@@ -113,7 +113,7 @@ public class Commande {
 		this.datec = datec;
 	}
 
-	public Commande(Offer offer, Integer nbrunit, String region, User user, Date date, String status , Date datec) {
+	public Commande(Offer offer, int nbrunit, String region, User user, Date date, String status , Date datec) {
 		super();
 		this.nbrunit = nbrunit;
 		this.region = region;
@@ -128,7 +128,7 @@ public class Commande {
 
 	}
 
-	public Commande(Long id2, Offer offer, Integer nbrunit, String region, User user, Date date, String status) {
+	public Commande(Long id2, Offer offer, int nbrunit, String region, User user, Date date, String status) {
 		this.id = id2;
 		this.nbrunit = nbrunit;
 		this.region = region;

@@ -1,8 +1,8 @@
 package web.tn.drobee.jwt;
 
-import java.util.ArrayList;
-import java.util.Date;
 
+
+import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -66,8 +66,5 @@ public class JwtUtils {
 
         return Long.parseLong(claims.getSubject());
     }
-	 public Authentication getAuthentication(String token) {
-	        UserDetailsImpl userDetails = new UserDetailsImpl(getUserIdFromToken(token), "","","", new ArrayList<>());
-	        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
-	    }
+	
 }

@@ -76,7 +76,7 @@ public class ReclamationController {
 	@ResponseBody
 	public ResponseEntity<?> updateReclamation(@Valid @RequestBody ReclamationRequest reclamationRequest) {
 		ReclamationResponse r = reclamationService.getreclamationbyid(reclamationRequest.getId());
-		if (r.isStatus() == true) {
+		if (r.getStatus() == "") {
 			return ResponseEntity.badRequest().body(new MessageResponse("reclamation traited"));
 		}
 		reclamationService.Updatereclamation(reclamationRequest);

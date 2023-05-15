@@ -41,16 +41,14 @@ public class CommandeController {
 	@GetMapping("/get-all-commandes")
 	@ResponseBody
 	public List<CommandeReponse> getCommandes() {
-		List<CommandeReponse> list = commandeService.Listcommandes();
-		return list;
+		return commandeService.Listcommandes();
 	}
 
 	//list off all commande for a user 
 	@GetMapping("/get-all-commandesbyuser/{username}")
 	@ResponseBody
 	public List<CommandeReponse> getCommandesbyuser(@PathVariable(value = "username") String username) {
-		List<CommandeReponse> list = commandeService.Listcommandesbyuser(username);
-		return list;
+		return commandeService.Listcommandesbyuser(username);
 	}
 	
 	//fetch commande based on ID
@@ -66,10 +64,10 @@ public class CommandeController {
 	@ResponseBody
 	public ResponseEntity<?> addCommande(@Valid @RequestBody CommandeRequest a) {
 		
-		if (!offerRepository.existsByname(a.getOffername())) {
+		if (Boolean.FALSE.equals(offerRepository.existsByname(a.getOffername()))) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: offer name not found "));
 		}
-		if (!userRepository.existsByUsername(a.getUsername())) {
+		if (Boolean.FALSE.equals(userRepository.existsByUsername(a.getUsername()))) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: username name not found"));
 		}
 		commandeService.Addcommande(a);
@@ -86,10 +84,10 @@ public class CommandeController {
 	@PutMapping("/update-Commande/{commande-id}")
 	@ResponseBody
 	public ResponseEntity<?> updateCommande(@PathVariable ("commande-id") Long commandeId ,@Valid @RequestBody CommandeRequest commandeRequest) {
-		if (!commandeRepository.existsByid(commandeId)) {
+		if (Boolean.FALSE.equals(commandeRepository.existsByid(commandeId))) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: commande  not found"));
 		}
-		if (!offerRepository.existsByname(commandeRequest.getOffername())) {
+		if (Boolean.FALSE.equals(offerRepository.existsByname(commandeRequest.getOffername()))) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: offer name is not found!"));
 		}
 		return 	commandeService.Updatecommande(commandeId,commandeRequest);
@@ -99,7 +97,7 @@ public class CommandeController {
 	@PutMapping("/valider-Commande/{commande-id}")
 	@ResponseBody
 	public ResponseEntity<?> validerCommande(@PathVariable("commande-id") Long commandeId) {
-		if (!commandeRepository.existsByid(commandeId)) {
+		if (Boolean.FALSE.equals(commandeRepository.existsByid(commandeId))) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: commande  not found"));
 		}
 		return 	commandeService.validercommande(commandeId);
@@ -108,7 +106,7 @@ public class CommandeController {
 	@PutMapping("/refuser-Commande/{commande-id}")
 	@ResponseBody
 	public ResponseEntity<?> refuserCommande(@PathVariable("commande-id") Long commandeId) {
-		if (!commandeRepository.existsByid(commandeId)) {
+		if (Boolean.FALSE.equals(commandeRepository.existsByid(commandeId))) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: commande  not found"));
 		}
 		return 	commandeService.refusercommande(commandeId);

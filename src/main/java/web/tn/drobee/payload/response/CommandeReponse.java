@@ -12,7 +12,7 @@ public class CommandeReponse {
 	
 	private String offername ;
 	
-    private Integer nbrunit ;
+    private int nbrunit ;
 	
 	private String region;
 	
@@ -57,11 +57,11 @@ public class CommandeReponse {
 		this.offername = offername;
 	}
 
-	public Integer getNbrunit() {
+	public int getNbrunit() {
 		return nbrunit;
 	}
 
-	public void setNbrunit(Integer nbrunit) {
+	public void setNbrunit(int nbrunit) {
 		this.nbrunit = nbrunit;
 	}
 
@@ -89,9 +89,9 @@ public class CommandeReponse {
 		this.status = status;
 	}
 
-	public CommandeReponse(Long id, String username, String offername, Integer nbrunit, String region, Date date,
+	public CommandeReponse(Long id, String username, String offername, int nbrunit, String region, Date date,
 			Date datec, String status) {
-		super();
+		
 		this.id = id;
 		this.username = username;
 		this.offername = offername;

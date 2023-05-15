@@ -19,7 +19,6 @@ public class Offer {
 	private Long id;
 
 	@NotBlank
-	
 	private String name;
 	
 	private double prixunit;

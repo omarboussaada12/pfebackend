@@ -40,7 +40,7 @@ public class ReclamationService implements IReclamationService {
 			rr.setUsername(ac.getUser().getUsername());
 			rr.setMessage(ac.getMessage());
 			rr.setDate(ac.getDate());
-			rr.setStatus(ac.isStatus());
+			rr.setStatus(ac.getStatus());
 			lrr.add(rr);
 		}
 		return lrr;
@@ -59,7 +59,7 @@ public class ReclamationService implements IReclamationService {
 			rr.setUsername(ac.getUser().getUsername());
 			rr.setMessage(ac.getMessage());
 			rr.setDate(ac.getDate());
-			rr.setStatus(ac.isStatus());
+			rr.setStatus(ac.getStatus());
 			lrr.add(rr);
 		}
 		return lrr;
@@ -70,7 +70,7 @@ public class ReclamationService implements IReclamationService {
 		Reclamation r = new Reclamation();
 		r.setMessage(reclamationRequest.getMessage());
 		r.setDate(new Date());
-		r.setStatus(false);
+		r.setStatus(" not processed ");
 		r.setUser(userRepository.findByUsername(reclamationRequest.getUsername())
 				.orElseThrow(() -> new UsernameNotFoundException(
 						"User Not Found with username: " + reclamationRequest.getUsername())));
@@ -84,13 +84,12 @@ public class ReclamationService implements IReclamationService {
 
 	}
 
-	//update should only run on reclamation nontraiter
-	//need solution
+	
 	@Override
 	public Reclamation Updatereclamation(ReclamationRequest reclamationRequest) {
 		Reclamation r = reclamationRepository.findById(reclamationRequest.getId()).get();
 		r.setMessage(reclamationRequest.getMessage());
-		r.setStatus(false);
+		r.setStatus(" not processed ");
 		return reclamationRepository.save(r);
 	}
 
@@ -98,7 +97,7 @@ public class ReclamationService implements IReclamationService {
 	public ReclamationResponse getreclamationbyid(Long id) {
 		Reclamation r = reclamationRepository.findById(id).get();
 		ReclamationResponse rp = new ReclamationResponse(r.getId(), r.getMessage(), r.getUser().getUsername(),
-				r.getDate(), r.isStatus());
+				r.getDate(), r.getStatus());
 		return rp;
 	}
 

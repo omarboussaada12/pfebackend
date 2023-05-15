@@ -37,7 +37,7 @@ public class Reclamation {
 	@DateTimeFormat(pattern = ("dd/MM/yyyy"))
 	private Date date;
 
-	private boolean status;
+	private String status;
 
 	public Long getId() {
 		return id;
@@ -71,11 +71,11 @@ public class Reclamation {
 		this.date = date;
 	}
 
-	public boolean isStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(boolean status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 	

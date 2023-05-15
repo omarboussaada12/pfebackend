@@ -19,7 +19,7 @@ public interface IUserService {
 
 	UserResponse getuserbyusername(String username);
 	
-	User addroletouser(String username , String rolename );
+	User changeroletouser(String username , String rolename );
 	
 	List<UserResponse> ListusersAdmin();
 

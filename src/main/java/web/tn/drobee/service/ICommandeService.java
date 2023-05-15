@@ -13,8 +13,6 @@ public interface ICommandeService {
 
 	List<CommandeReponse> Listcommandesbyuser(String user);
 
-	List<Commande> Listcommandesbyyear();
-
 	Commande Addcommande(CommandeRequest commanderequest);
 
 	void Deletecommande(Long id);

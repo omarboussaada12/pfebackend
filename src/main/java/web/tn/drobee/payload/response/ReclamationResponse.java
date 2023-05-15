@@ -15,7 +15,7 @@ public class ReclamationResponse {
 	@DateTimeFormat(pattern = ("dd/MM/yyyy"))
 	private Date date;
 
-	private boolean status;
+	private String status;
 
 	public Long getId() {
 		return id;
@@ -49,16 +49,16 @@ public class ReclamationResponse {
 		this.date = date;
 	}
 
-	public boolean isStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(boolean status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
-	public ReclamationResponse(Long id, String message, String username, Date date, boolean status) {
-		super();
+	public ReclamationResponse(Long id, String message, String username, Date date, String status) {
+		
 		this.id = id;
 		this.message = message;
 		this.username = username;

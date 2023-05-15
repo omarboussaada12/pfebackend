@@ -64,7 +64,7 @@ public class UserController {
 	public void updateUserroles(@Valid @PathVariable("user-name") String username, @PathVariable("role-name") String rolename   ) {
 		
 		
-		 userService.addroletouser(username, rolename);
+		 userService.changeroletouser(username, rolename);
 	}
 	
 	// update user image

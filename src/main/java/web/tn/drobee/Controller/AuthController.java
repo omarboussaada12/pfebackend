@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,12 +30,12 @@ import web.tn.drobee.payload.request.LoginRequest;
 import web.tn.drobee.payload.request.SignupRequest;
 import web.tn.drobee.payload.response.JwtResponse;
 import web.tn.drobee.payload.response.MessageResponse;
+import web.tn.drobee.repo.FileDBRepository;
 import web.tn.drobee.repo.RoleRepository;
 import web.tn.drobee.repo.UserRepository;
 import web.tn.drobee.jwt.JwtUtils;
 import web.tn.drobee.service.FileStorageService;
 import web.tn.drobee.service.UserDetailsImpl;
-import web.tn.drobee.service.UserService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -50,6 +51,9 @@ public class AuthController {
 	RoleRepository roleRepository;
 	
 	@Autowired
+	FileDBRepository filedbrepo;
+	
+	@Autowired
 	FileStorageService fsService;
 
 	@Autowired
@@ -58,7 +62,12 @@ public class AuthController {
 	@Autowired
 	JwtUtils jwtUtils;
 	
-	private static final Logger l = LogManager.getLogger(UserService.class);
+	String exceptionrole ="Role is not found";
+	@Value("${app.defaultpicturename}")
+	private String defaultPictureName;
+	
+	
+	private static final Logger l = LogManager.getLogger(AuthController.class);
 	
 
 	@PostMapping("/signin")
@@ -80,12 +89,12 @@ public class AuthController {
 
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+		if (Boolean.TRUE.equals(userRepository.existsByUsername(signUpRequest.getUsername()))) {
 			l.info("Error: Username is already taken!");
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
 		}
 
-		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+		if (Boolean.TRUE.equals(userRepository.existsByEmail(signUpRequest.getEmail()))) {
 			l.info("Error: Email is already in use!");
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
 			
@@ -98,25 +107,25 @@ public class AuthController {
 		String role = signUpRequest.getRole();
 		switch (role) {
 		case "admin":
-			Role Roleadmin = roleRepository.findByName(ERole.ROLE_ADMIN)
-					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-			roles.add(Roleadmin);
+			Role roleadmin = roleRepository.findByName(ERole.ROLE_ADMIN)
+					.orElseThrow(() -> new RuntimeException(exceptionrole));
+			roles.add(roleadmin);
 			break;
 		case "client":
-			Role Roleclient = roleRepository.findByName(ERole.ROLE_CLIENT)
-					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-			roles.add(Roleclient);
+			Role roleclient = roleRepository.findByName(ERole.ROLE_CLIENT)
+					.orElseThrow(() -> new RuntimeException(exceptionrole));
+			roles.add(roleclient);
 
 			break;
 
 		default:
-			Role Roleuser = roleRepository.findByName(ERole.ROLE_USER)
-					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-			roles.add(Roleuser);
+			Role roleuser = roleRepository.findByName(ERole.ROLE_USER)
+					.orElseThrow(() -> new RuntimeException(exceptionrole));
+			roles.add(roleuser);
 			break;
 		}
 		user.setRoles(roles);
-		user.setImage(fsService.getFile("34da37f5-7f97-4f62-bf0e-bc2f2deee278"));
+		user.setImage(fsService.getFile(filedbrepo.getidofimagepardefaut(defaultPictureName)));
 		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
