@@ -82,4 +82,11 @@ public class ReclamationController {
 		reclamationService.Updatereclamation(reclamationRequest);
 		return ResponseEntity.ok(new MessageResponse("reclamation updated successfully"));
 	}
+	
+	@PutMapping("/ReclamationProcessing/{reclamation-id}")
+	@ResponseBody
+	public ResponseEntity<?> processreclamation(@PathVariable("reclamation-id") Long reclamationId ,@RequestBody String reponse) {
+		return reclamationService.traitment(reclamationId,reponse) ;
+		
+	}
 }

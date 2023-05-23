@@ -27,7 +27,7 @@ public class Reclamation {
 	private Long id;
 
 	@NotBlank
-	@Size(max = 20)
+	@Size(max = 300)
 	private String message;
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)

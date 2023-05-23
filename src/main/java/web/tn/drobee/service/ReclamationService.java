@@ -7,12 +7,14 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import web.tn.drobee.entity.Reclamation;
 import web.tn.drobee.entity.User;
 import web.tn.drobee.payload.request.ReclamationRequest;
+import web.tn.drobee.payload.response.MessageResponse;
 import web.tn.drobee.payload.response.ReclamationResponse;
 import web.tn.drobee.repo.ReclamationRepository;
 import web.tn.drobee.repo.UserRepository;
@@ -31,7 +33,7 @@ public class ReclamationService implements IReclamationService {
 	@Override
 	public List<ReclamationResponse> Listreclamations() {
 		List<ReclamationResponse> lrr = new ArrayList<ReclamationResponse>();
-		List<Reclamation> Reclamations = (List<Reclamation>) reclamationRepository.findAllByOrderByDateAsc();
+		List<Reclamation> Reclamations = reclamationRepository.findAllByOrderByDateAsc();
 		l.info("fetching list d'offer");
 		for (Reclamation ac : Reclamations) {
 			ReclamationResponse rr = new ReclamationResponse();
@@ -50,8 +52,7 @@ public class ReclamationService implements IReclamationService {
 	public List<ReclamationResponse> Listreclamationsbyuser(String username) {
 		User u = userRepository.findByUsername(username).get();
 		List<ReclamationResponse> lrr = new ArrayList<ReclamationResponse>();
-		List<Reclamation> Reclamations = (List<Reclamation>) reclamationRepository
-				.findAllByuserOrderByDateAsc(u.getId());
+		List<Reclamation> Reclamations = reclamationRepository.findAllByuserOrderByDateAsc(u.getId());
 		for (Reclamation ac : Reclamations) {
 			ReclamationResponse rr = new ReclamationResponse();
 			l.info("Reclamation for user : " + ac.getUser().getUsername());
@@ -96,9 +97,31 @@ public class ReclamationService implements IReclamationService {
 	@Override
 	public ReclamationResponse getreclamationbyid(Long id) {
 		Reclamation r = reclamationRepository.findById(id).get();
-		ReclamationResponse rp = new ReclamationResponse(r.getId(), r.getMessage(), r.getUser().getUsername(),
-				r.getDate(), r.getStatus());
-		return rp;
+		return new ReclamationResponse(r.getId(), r.getMessage(), r.getUser().getUsername(),r.getDate(), r.getStatus());
+	}
+
+	@Override
+	public ResponseEntity<?> traitment(Long reclamationId, String reponse) {
+		Reclamation r = reclamationRepository.findById(reclamationId).get();
+		switch (reponse)
+		{
+		    case "approved":
+		             r.setStatus("approved");
+		             reclamationRepository.save(r);
+		             return ResponseEntity.ok(new MessageResponse("reclamation accepted and traited successfully"));
+		             
+		        
+		    case "denied":
+		    	  r.setStatus("denied");
+		          reclamationRepository.save(r);
+		          return ResponseEntity.ok(new MessageResponse("reclamation denied and traited successfully"));
+		        
+		        
+		    default:
+		    	l.info("we didn't understand your reponse " + reponse);
+		    	return ResponseEntity.ok(new MessageResponse("we didn't understand your reponse"));
+		     
+		}
 	}
 
 }

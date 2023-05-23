@@ -34,7 +34,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	 private static final Logger l = LogManager.getLogger(WebSocketConfig.class);
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/all","/specific");
+        config.enableSimpleBroker("/users","/specific","/admins");
         config.setApplicationDestinationPrefixes("/app");
         config.setUserDestinationPrefix("/user");
         

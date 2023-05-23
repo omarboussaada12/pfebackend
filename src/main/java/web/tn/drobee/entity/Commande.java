@@ -37,11 +37,11 @@ public class Commande {
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
-	//date whene you sent the commande 
+	//date you placed a command 
 	@DateTimeFormat(pattern = ("dd/MM/yyyy"))
 	private Date date;
 	
-	//date you choose to your commande
+	//date you choose for your command
 	@DateTimeFormat(pattern = ("dd/MM/yyyy"))
 	private Date datec;
 
@@ -128,14 +128,6 @@ public class Commande {
 
 	}
 
-	public Commande(Long id2, Offer offer, int nbrunit, String region, User user, Date date, String status) {
-		this.id = id2;
-		this.nbrunit = nbrunit;
-		this.region = region;
-		this.user = user;
-		this.offer = offer;
-		this.date = date;
-		this.status = status;
-	}
+	
 
 }
