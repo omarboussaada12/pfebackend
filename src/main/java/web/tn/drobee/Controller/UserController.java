@@ -51,10 +51,10 @@ public class UserController {
 	}
     
 	// need more work
-	@DeleteMapping("/delete-user/{user-id}")
+	@DeleteMapping("/delete-user/{username}")
 	@ResponseBody
-	public void deleteUser(@PathVariable("user-id") Long UserId) {
-		userService.Deleteuser(UserId);
+	public void deleteUser(@Valid @PathVariable("username") String username) {
+		userService.Deleteuser(username);
 	}
 	
 	

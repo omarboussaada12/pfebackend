@@ -30,7 +30,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
 	
 	 @Autowired
-	    private JwtUtils jwtTokenProvider;
+	 private JwtUtils jwtTokenProvider;
 	 private static final Logger l = LogManager.getLogger(WebSocketConfig.class);
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
@@ -46,7 +46,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     	registry.addEndpoint("/ws").setAllowedOrigins("*").withSockJS();
     }
     
-   
+ /* 
     public void configureClientInboundChannel(ChannelRegistration registration) {
     	  registration.interceptors(new ChannelInterceptor() {
             public Message<?> preSend(Message<?> message, MessageChannel channel) {
@@ -73,7 +73,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
             }
         });
     }
-
+*/
    
 
 }

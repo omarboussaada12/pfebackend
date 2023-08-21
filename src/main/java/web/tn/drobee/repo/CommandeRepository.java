@@ -18,4 +18,8 @@ public interface CommandeRepository  extends JpaRepository<Commande, Long> {
 	@Query(value = "SELECT * FROM commande where user_id = ?1 ORDER BY date DESC",nativeQuery = true)
 	List<Commande> findAllByuserOrderByDateAsc(long userid);
 	
+	@Query(value = "SELECT * FROM commande where offer_id = ?1 ORDER BY date DESC",nativeQuery = true)
+	List<Commande> findAllByofferOrderByDateAsc(long offerid);
+	
+	
 }

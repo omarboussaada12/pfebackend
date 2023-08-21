@@ -11,7 +11,7 @@ import web.tn.drobee.payload.response.UserResponse;
 public interface IUserService {
 	List<UserResponse> Listusers();
 
-	void Deleteuser(Long id);
+	void Deleteuser(String username);
 
 	boolean Updateuserinfo(String  username , SignupRequest a );
 	

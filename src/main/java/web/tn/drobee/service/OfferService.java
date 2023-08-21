@@ -12,12 +12,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import web.tn.drobee.entity.Commande;
 import web.tn.drobee.entity.FileDB;
 import web.tn.drobee.entity.Offer;
 import web.tn.drobee.entity.User;
 import web.tn.drobee.payload.response.OfferResponse;
 import web.tn.drobee.payload.response.ResponseFile;
 import web.tn.drobee.payload.response.UserResponse;
+import web.tn.drobee.repo.CommandeRepository;
 import web.tn.drobee.repo.FileDBRepository;
 import web.tn.drobee.repo.OfferRepository;
 
@@ -32,6 +34,9 @@ public class OfferService implements IOfferService {
 	
 	@Autowired
 	FileDBRepository fileDBRepository ;
+	
+	@Autowired
+	CommandeRepository commandeRepository;
 	private static final Logger l = LogManager.getLogger(OfferService.class);
 
 	@Override
@@ -58,14 +63,16 @@ public class OfferService implements IOfferService {
 	}
 
 	
-
+ // delete all orders of the offer that we are going to delete
 	@Override
 	public void Deleteoffer(Long id) {
 		l.info("Deleting Offer with ID: " + id);
-		
+		List<Commande> c = this.commandeRepository.findAllByofferOrderByDateAsc(id);
+		l.info("Deleting all order with offername =  " + offerRepository.getOne(id).getName());
+		for (Commande ac : c) {
+			commandeRepository.deleteById(ac.getId());
+		}
 		offerRepository.deleteById(id);
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

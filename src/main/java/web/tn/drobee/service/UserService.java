@@ -13,10 +13,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import web.tn.drobee.entity.Commande;
 import web.tn.drobee.entity.ERole;
 import web.tn.drobee.entity.FileDB;
 import web.tn.drobee.entity.User;
 import web.tn.drobee.payload.request.SignupRequest;
+import web.tn.drobee.payload.response.CommandeReponse;
+import web.tn.drobee.payload.response.ReclamationResponse;
 import web.tn.drobee.payload.response.ResponseFile;
 import web.tn.drobee.payload.response.UserResponse;
 import web.tn.drobee.repo.RoleRepository;
@@ -35,6 +38,11 @@ public class UserService implements IUserService {
 
 	@Autowired
 	PasswordEncoder encoder;
+	
+	@Autowired
+	CommandeService commandeService ;
+	@Autowired
+	ReclamationService reclamationService;
 
 	private static final Logger l = LogManager.getLogger(UserService.class);
 
@@ -65,11 +73,21 @@ public class UserService implements IUserService {
 		return lur;
 	}
 
-	// delete still not finished
+	// delete all user order before deleting a user
 	@Override
-	public void Deleteuser(Long id) {
-		l.info("Deleting user with ID: " + id);
-		userRepository.deleteById(id);
+	public void Deleteuser(String  username) {
+		l.info("Deleting user with username: " + username);
+		List<CommandeReponse> cr = new ArrayList<CommandeReponse>();
+		cr = this.commandeService.Listcommandesbyuser(username);
+		l.info("Deleting all commande for username =  " + username);
+		for (CommandeReponse ac : cr) {
+			commandeService.Deletecommande(ac.getId());
+		}
+		List<ReclamationResponse> list = reclamationService.Listreclamationsbyuser(username);
+		for (ReclamationResponse ac : list) {
+			reclamationService.Deletereclamation(ac.getId());
+		}
+		userRepository.deleteById(getuserbyusername(username).getId());
 
 	}
 

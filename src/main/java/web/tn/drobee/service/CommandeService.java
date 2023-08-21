@@ -98,7 +98,7 @@ public class CommandeService implements ICommandeService {
 		c.setNbrunit(commandeRequest.getNbrunit());
 		c.setDate(new Date());
 		c.setRegion(commandeRequest.getRegion());
-		c.setStatus("waiting for confirmation");
+		c.setStatus("not processed");
 		c.setOffer(o);
 		c.setDatec(commandeRequest.getDatec());
 		/** chech if datec > a date **/
@@ -123,7 +123,7 @@ public class CommandeService implements ICommandeService {
 		Offer o = offerService.getbyname(commandeRequest.getOffername());
 		c.setNbrunit(commandeRequest.getNbrunit());
 		c.setRegion(commandeRequest.getRegion());
-		c.setStatus("waiting for confirmation");
+		c.setStatus("not processed");
 		c.setOffer(o);
 		c.setDatec(commandeRequest.getDatec());
 		this.commandeRepository.save(c);
@@ -144,7 +144,7 @@ public class CommandeService implements ICommandeService {
 	public ResponseEntity<?> validercommande(long id) {
 		Commande c = commandeRepository.findById(id).get();
 		userService.changeroletouser(c.getUser().getUsername(), "ROLE_CLIENT");
-		c.setStatus("confimer");
+		c.setStatus("approved");
 		commandeRepository.save(c);
 
 		return ResponseEntity.ok(new MessageResponse("commande confirmer successfully!"));
@@ -154,7 +154,7 @@ public class CommandeService implements ICommandeService {
 	public ResponseEntity<?> refusercommande(long id) {
 		Commande c = commandeRepository.findById(id).get();
 		userService.changeroletouser(c.getUser().getUsername(), "ROLE_CLIENT");
-		c.setStatus("refuser");
+		c.setStatus("denied");
 		commandeRepository.save(c);
 
 		return ResponseEntity.ok(new MessageResponse("commande refuser "));

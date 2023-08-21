@@ -24,7 +24,7 @@ public class Commande {
 	private Long id;
 
 	@JsonIgnore
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "offer_id", nullable = false)
 	private Offer offer;
 
