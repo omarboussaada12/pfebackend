@@ -79,7 +79,8 @@ public class DbInitializer implements CommandLineRunner {
 			Role role = rolerepo.findByName(ERole.ROLE_ADMIN).orElseThrow(() -> new RuntimeException(exceptionrole));
 			roles.add(role);
 			ADMIN.setRoles(roles);
-			ADMIN.setImage(fsService.getFile(filedbrepo.getidofimagepardefaut(filedbrepo.getidofimagepardefaut(defaultPictureName))));
+			String fileid =filedbrepo.getidofimagepardefaut(defaultPictureName);
+			ADMIN.setImage(fsService.getFile(fileid));
 			this.userrepo.save(ADMIN);
 		}
 	}
