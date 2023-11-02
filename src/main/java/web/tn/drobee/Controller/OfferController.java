@@ -32,7 +32,7 @@ public class OfferController {
 	IOfferService offerService;
 	@Autowired
 	OfferRepository offerRepository;
-
+    
 	//fetching a list of offer 
 	@GetMapping("/get-all-offer")
 	@ResponseBody
@@ -55,6 +55,13 @@ public class OfferController {
 	public OfferResponse getOffer(@PathVariable("offer-id") Long OfferId) {
 		return offerService.getofferbyid(OfferId);
 	}
+	//fetchofferbyname
+	@GetMapping("/get-Offerbyname/{offer-name}")
+	@ResponseBody
+	public OfferResponse getOffer(@PathVariable("offer-name") String offername) {
+		Offer of = offerService.getbyname(offername);
+		return   offerService.converttoOR(of);
+	}
 
 	// add a new offer without image
 	@PostMapping("/add-Offer")
@@ -63,8 +70,17 @@ public class OfferController {
 		if (offerRepository.existsByname(a.getName())) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: offer name is already taken!"));
 		}
-		offerService.Addoffer(a);
-		return ResponseEntity.ok(new MessageResponse("offer add successfully!"));
+		if (a.getDescription().length()>255) {
+			return ResponseEntity.badRequest().body(new MessageResponse("Description need to be less then 255 "));
+		}
+		if(offerService.Addoffer(a))
+		{
+			return ResponseEntity.ok(new MessageResponse("offer add successfully!"));
+		}else
+		{
+			return ResponseEntity.badRequest().body(new MessageResponse("something went wrong please try later"));
+		}
+		
 	}
 
 	

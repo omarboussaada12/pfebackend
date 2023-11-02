@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,9 +17,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import web.tn.drobee.entity.Commande;
 import web.tn.drobee.entity.ERole;
 import web.tn.drobee.entity.FileDB;
+import web.tn.drobee.entity.Role;
 import web.tn.drobee.entity.User;
 import web.tn.drobee.payload.request.SignupRequest;
 import web.tn.drobee.payload.response.CommandeReponse;
+import web.tn.drobee.payload.response.MessageResponse;
 import web.tn.drobee.payload.response.ReclamationResponse;
 import web.tn.drobee.payload.response.ResponseFile;
 import web.tn.drobee.payload.response.UserResponse;
@@ -93,23 +96,27 @@ public class UserService implements IUserService {
 
 	// update info for user
 	@Override
-	public boolean Updateuserinfo(String username, SignupRequest a) {
+	public ResponseEntity<MessageResponse> Updateuserinfo(String username, SignupRequest a) {
 		User u = userRepository.findByUsername(username)
-				.orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
-		if (u.getEmail().equals(a.getEmail())) {
+				.orElseThrow(() -> new UsernameNotFoundException("User Not Found with username :" + username));
+		if (userRepository.existsByEmail(a.getEmail())&&( u.getEmail().toUpperCase().equals(a.getEmail().toUpperCase())))
+		{
 			u.setEmail(a.getEmail());
-		} else if (userRepository.existsByEmail(a.getEmail())) {
-			return false;
+		}else
+		{
+			 return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use! "));
 		}
 		u.setFirstname(a.getFirstname());
 		u.setLastname(a.getLastname());
 		u.setAddress(a.getAddress());
 		u.setPhone(a.getPhone());
-		changeroletouser(username, a.getRole());
+		 if (!u.getRoles().stream().map(Role::getName).anyMatch(roleName -> roleName.equals(a.getRole()))) {
+		        changeroletouser(username, a.getRole());
+		    }
 		if (userRepository.save(u) != null) {
-			return true;
+			return ResponseEntity.ok(new MessageResponse("account information updated successfully!"));
 		} else {
-			return false;
+			 return ResponseEntity.badRequest().body(new MessageResponse("Error: something went wrong "));
 		}
 	}
 

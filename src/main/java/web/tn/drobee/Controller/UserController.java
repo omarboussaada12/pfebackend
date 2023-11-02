@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -78,15 +79,8 @@ public class UserController {
 	
 	@PutMapping("/update-user-info/{user-name}")
 	@ResponseBody
-	public ResponseEntity<MessageResponse> updateUserinfo(@Valid @PathVariable("user-name") String username, @RequestBody SignupRequest user ) {
-		
-	 if( userService.Updateuserinfo(username,user))
-	 {
-		 return ResponseEntity.ok().body(new MessageResponse(" ok : user info updated  "));
-	 }else
-	 {
-		 return ResponseEntity.ok().body(new MessageResponse(" Error :  could not update this user info")); 
-	 }
+	public ResponseEntity<?> updateUserinfo(@Valid @PathVariable("user-name") String username, @RequestBody SignupRequest user ) {
+	 return userService.Updateuserinfo(username,user);
 	}
 	
 	// list off all the users with ROLE_ADMIN

@@ -21,5 +21,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 			+ "INNER JOIN `roles` ON `roles`.`id` = `user_roles`.`role_id` \r\n"
 			+ "where `roles`.`name` = \"ROLE_ADMIN\"", nativeQuery = true)
 	List<User> findAllAdmin();
+	
+	@Query(value = "SELECT * FROM `users`\r\n" + "INNER JOIN `user_roles` ON `user_roles`.`user_id` = `users`.`id` \r\n"
+			+ "INNER JOIN `roles` ON `roles`.`id` = `user_roles`.`role_id` \r\n"
+			+ "where `roles`.`name` = \"ROLE_CLIENT\"", nativeQuery = true)
+	List<User> findAllCLIENT();
 
 }

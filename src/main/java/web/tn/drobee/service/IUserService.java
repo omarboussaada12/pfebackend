@@ -2,10 +2,12 @@ package web.tn.drobee.service;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.tn.drobee.entity.User;
 import web.tn.drobee.payload.request.SignupRequest;
+import web.tn.drobee.payload.response.MessageResponse;
 import web.tn.drobee.payload.response.UserResponse;
 
 public interface IUserService {
@@ -13,7 +15,7 @@ public interface IUserService {
 
 	void Deleteuser(String username);
 
-	boolean Updateuserinfo(String  username , SignupRequest a );
+	ResponseEntity<MessageResponse> Updateuserinfo(String  username , SignupRequest a );
 	
 	User Updateuserimage(String  username , MultipartFile file );
 

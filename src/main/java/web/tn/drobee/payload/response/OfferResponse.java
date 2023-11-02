@@ -9,9 +9,28 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import web.tn.drobee.entity.FileDB;
+import web.tn.drobee.entity.Offer;
+import web.tn.drobee.repo.FileDBRepository;
+import web.tn.drobee.repo.OfferRepository;
+import web.tn.drobee.service.FileStorageService;
+import web.tn.drobee.service.IOfferService;
 
 public class OfferResponse {
+	@Autowired
+	FileStorageService storageService;
+	
+	@Autowired
+	FileDBRepository fileDBRepository ;
+	
+	@Autowired
+	OfferRepository offerRepository;
+	
+	@Autowired
+	IOfferService offerService;
 	
 	private Long id;
 
@@ -23,6 +42,20 @@ public class OfferResponse {
 	private String description ;
 	
 	private ResponseFile image ;
+
+	
+
+	public OfferResponse(Long id, String name, double prixunit, String description, ResponseFile image) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.prixunit = prixunit;
+		this.description = description;
+		this.image = image;
+	}
+
+	public OfferResponse() {
+	}
 
 	public Long getId() {
 		return id;

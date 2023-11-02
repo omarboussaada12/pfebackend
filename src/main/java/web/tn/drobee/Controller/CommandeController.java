@@ -62,7 +62,7 @@ public class CommandeController {
 	//adding a new commande 
 	@PostMapping("/add-commande")
 	@ResponseBody
-	public ResponseEntity<?> addCommande(@Valid @RequestBody CommandeRequest a) {
+	public ResponseEntity<MessageResponse> addCommande(@Valid @RequestBody CommandeRequest a) {
 		
 		if (Boolean.FALSE.equals(offerRepository.existsByname(a.getOffername()))) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: offer name not found "));

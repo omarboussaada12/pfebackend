@@ -10,7 +10,7 @@ import web.tn.drobee.payload.response.OfferResponse;
 public interface IOfferService {
 	List<OfferResponse> Listoffers();
 
-	Offer Addoffer(Offer offer);
+	Boolean Addoffer(Offer offer);
 	
 	Offer Addimageoffer(String offername , MultipartFile file);
 
@@ -23,5 +23,7 @@ public interface IOfferService {
 	List<String> Listoffername();
 
 	Offer Updateoffer(long id, Offer a);
+	
+	OfferResponse converttoOR(Offer of);
 
 }
